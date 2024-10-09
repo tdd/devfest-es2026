@@ -153,7 +153,7 @@ La proposition s'appelle *Explicit Resource Management*. TypeScript 5.2+ et Babe
 
 Tellement hâte de dire au revoir à Moment, Luxon, date-fns, dayjs, etc. `Intl` nous fournit déjà le formatage avancé, mais ici on a tous les calculs. API dérivative, précision à la nanoseconde, toutes les TZ, distingo temps absolu / local, durée vs. intervalle, etc.  **Fabuleux !** Va voir les [docs](https://tc39.es/proposal-temporal/docs/), le [cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html)…
 
-```js {1-2|1-3|1-4|all}
+```js {1-2|1-3|1-4|all|none}
 const meeting1 = Temporal.Date.from('2024-01-01')
 const meeting2 = Temporal.Date.from('2024-04-01')
 const time = Temporal.Time.from('10:00:00')
@@ -162,9 +162,9 @@ timeZone.getAbsoluteFor(meeting1.withTime(time)) // => 2024-01-01T15:00:00.000Z
 timeZone.getAbsoluteFor(meeting2.withTime(time)) // => 2024-01-01T14:00:00.000Z
 ```
 
-<v-click>
+<v-click at="-1">
 
-```js {1-2|1-3|5|1,5-7}
+```js {none|1-2|1-3|5|1,5-7}
 const departure = Temporal.ZonedDateTime.from('2020-03-08T11:55:00+08:00[Asia/Hong_Kong]');
 const arrival = Temporal.ZonedDateTime.from('2020-03-08T09:50:00-07:00[America/Los_Angeles]');
 departure.until(arrival).toString() // => 'PT12H55M'
