@@ -125,7 +125,7 @@ Finally a mechanism to guarantee resource disposal!
 
 Quite like C#'s `using`, Python's `with` or Java's try-with-resources: disposes of the resource in a guaranteed way when the scope or closure is discarded.
 
-Exists in synchronous and asynchronous variants.  Based on two new well-known symbols (`Symbol.dispose` et `Symbol.asyncDispose`), supported out-of-the-box by timers and streams.
+Exists in synchronous and asynchronous variants.  Based on two new well-known symbols (`Symbol.dispose` and `Symbol.asyncDispose`), supported out-of-the-box by timers and streams.
 
 ```js
 async function copy4K(s1, s2) {

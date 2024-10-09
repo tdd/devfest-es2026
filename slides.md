@@ -15,7 +15,7 @@ fonts:
 info: |
   ## What’s up in ES2026?
 
-  A talk by [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) at [DevFest 2024](https://devfest2024.gdgnantes.com/).
+  A talk by [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) at [DevFest Nantes 2024](https://devfest2024.gdgnantes.com/).
 drawings:
   persist: false
   syncAll: false
@@ -24,7 +24,7 @@ css: unocss
 
 # What’s up in ES2026?
 
-A talk by [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) at [DevFest 2024](https://devfest2024.gdgnantes.com/)
+A talk by [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) at [DevFest Nantes 2024](https://devfest2024.gdgnantes.com/)
 
 ---
 src: ./sections/intro.md
