@@ -3,21 +3,21 @@ layout: cover
 background: /covers/aaron-burden-CKlHKtCJZKk-unsplash.jpg
 ---
 
-# Quick refresher:<br/>ES2020–2023
+# Rappels rapides :<br/>ES2020–2023
 
-A curated list of things too few people heard about 😉
+Une liste choisie de trucs que trop peu de gens ont vu passer 😉
 
 ---
 
-# ES2020: `String#matchAll`
+# ES2020 : `String#matchAll`
 
-Captures **all groups** for a sticky or **global** regex.
+Capture **tous les groupes** pour une regex *sticky* ou **globale**.
 
 ```js
 const text = 'Get in touch at tel:0983450176 or sms:478-555-1234'
 
 text.match(/(?<protocol>[a-z]{3}):(?<number>[\d-]+)/g)
-// => ['tel:0983450176', 'sms:478-555-1234'] -- 😞 DUDE, WHERE ARE MY GROUPS?!
+// => ['tel:0983450176', 'sms:478-555-1234'] -- 😞 HÉ MEC, ILS SONT OÙ MES GROUPES ?!
 ```
 
 ```js
@@ -32,17 +32,17 @@ Array.from(text.matchAll(/(?<protocol>[a-z]{3}):(?<number>[\d-]+)/g)).map((mr) =
 
 ---
 
-# ES2020 / ES2021: `Promise.allSettled`/`any`
+# ES2020 / ES2021 : `Promise.allSettled`/`any`
 
-The two missing combinators: `any` short-circuits on the **first fulfillment**, whilst `allSettled` doesn't short-circuit at all: you get all settlements for analysis.
+Les deux combinateurs manquants : `any` court-circuite sur le **premier accomplissement**, tandis que `allSettled` ne court-circuite jamais : on a tous les établissements pour analyse.
 
-Together with `all` (short-circuits on first rejection) and `race` (short-circuits on first settlement) from ES2015, we now cover all scenarios.
+Avec `all` (court-circuite sur le premier rejet) et `race` (court-circuite sur le premier établissement) depuis ES2015, on couvre désormais tous les scénarios.
 
 ```js
-// May the fastest strategy win!
+// Que le plus rapide gagne !
 const data = await Promise.any([fetchFromDB(), fetchFromCache(), fetchFromHighSpeedLAN()])
 
-// Run all tests in parallel, no short-circuit!
+// Parallélise les tests, sans court-circuit !
 await Promise.allSettled(tests)
 // => [
 //   { status: 'fulfilled', value: Response… },
@@ -53,35 +53,35 @@ await Promise.allSettled(tests)
 
 ---
 
-# ES2022: `at()` on position-based native iterables 🤩
+# ES2022 : `at()` sur itérables natifs indexés 🤩
 
-You know how `Array` and `String` let you use negative indices with `slice`, `splice`, etc. but not with `[…]`? This novelty lets you grab last elements without a cringe.
+Tu sais sans doute que `Array` et `String` permettent des indices négatifs dans `slice`, `splice`, etc. mais pas dans `[…]` ? Tu peux désormais choper les derniers éléments sans grimacer.
 
-From now on, **all position-based native iterables** offer `.at(…)` that understands negative indices!
+Désormais, **tous les itérables natifs indexés** proposent `.at(…)` qui autorise les indices négatifs !
 
 ```js
-const roomSeries = ['St-Laurent', 'Westmount', 'Outremount']
-roomSeries.at(-1) // => 'Outremount'
-roomSeries.at(-2) // => 'Westmount'
+const roomSeries = ['Jules Verne', 'Titan', 'Belem', 'Tour Bretagne', /* … */ 'Hangar', 'L’Atelier']
+roomSeries.at(-1) // => 'L’Atelier'
+roomSeries.at(-2) // => 'Hangar'
 ```
 
 ---
 
-# ES2023: Change Array by Copy
+# ES2023 : Modif de tableau par copie
 
-A series of cool utilities that let you derive arrays (yay immutability). `Array`'s API so far exposed 8 derivative methods (producing new arrays) and 9 mutative methods (modifying arrays in place), including `reverse()` and `sort()`, which many folks didn't realize were mutative!
+Une série d'utilitaires sympa qui nous permettent de dériver des tableaux (immutabilité FTW). L’API de `Array` exposait jusqu'ici 8 méthodes dérivatives (produisant un nouveau tableau) et 9 mutatives (modifiant le tableau en place), y compris `reverse()` et `sort()`, qu'on pensait souvent dérivatives !
 
 ```js
-const trackSpeakers = ['Nicolas', 'Hugh', 'Teiva', 'Simon', 'Sébastien']
+const trackSpeakers = ['Etienne', 'Mathieu', 'Tristan', /* … */ 'Olivier', 'Alexis', 'Eric']
 
 trackSpeakers.toReversed()
-// => ['Sébastien', 'Simon', 'Teiva', 'Hugh', 'Nicolas']
+// => ['Eric', 'Alexis', 'Olivier' … 'Tristan', 'Mathieu', 'Etienne']
 trackSpeakers.toSorted((s1, s2) => s1.localeCompare(s2))
-// => ['Hugh', 'Nicolas', 'Sébastien', 'Simon', 'Teiva']
+// => ['Alexis', 'David', 'Eric', 'Etienne' … 'Tristan']
 trackSpeakers.toSpliced(-2, 2)
-// => ['Nicolas', 'Hugh', 'Teiva']
+// => ['Alexis', 'Eric']
 trackSpeakers.with(-2, 'Yann')
-// => ['Nicolas', 'Hugh', 'Teiva', 'Yann', 'Sébastien']
+// => ['Etienne', 'Mathieu', 'Tristan' … 'Olivier', 'Yann', 'Eric']
 
-trackSpeakers // => ['Nicolas', 'Hugh', 'Teiva', 'Simon', 'Sébastien']
+trackSpeakers // => ['Etienne', 'Mathieu', 'Tristan' … 'Olivier', 'Alexis', 'Eric']
 ```

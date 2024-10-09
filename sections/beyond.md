@@ -3,7 +3,9 @@ layout: cover
 background: /covers/jan-tinneberg-tVIv23vcuz4-unsplash.jpg
 ---
 
-# ES2025 and beyond
+# ES2025 et au-delà
+
+Déjà beaucoup de choses finalisées, et plein d'autres pourraient arriver d'ici janvier / mars prochain…
 
 <!--
 TODO TRACK ONGOING TC39 MEETING
@@ -14,11 +16,11 @@ Latest meeting: Oct 8-10 2024 in Tokyo
 
 ---
 
-# E2025: Collection / iterator utilities
+# E2025 : Utilitaires sur collections / itérateurs
 
-We're not going to stop processing data collections (and iterables in general) anytime soon, so we might as well have more tools in our standard toolbelt for this…
+C'est pas demain la veille qu'on arrêtera de traiter des collections (et des itérables en général), alors autant enrichir notre boîte à outils…
 
-We're about to get many [**new `Set` methods**](https://github.com/tc39/proposal-set-methods#readme) (intersection, union, difference, disjunction, super/subset, etc.) and a ton of [**iterator helpers**](https://github.com/tc39/proposal-iterator-helpers#readme) (instead of having to roll our own generative functions for `take`, `filter` or `map`, for instance).
+Tu vas voir débarquer plein de [**nouvelles méthodes sur `Set`**](https://github.com/tc39/proposal-set-methods#readme) (intersection, union, différence, disjonction, sur-/sous-ensemble, etc.) et une tonne d’[**utilitaires sur itérateurs**](https://github.com/tc39/proposal-iterator-helpers#readme) (plutôt que d'avoir à se faire nos propres fonctions génératives pour `take`, `filter` ou `map`, par exemple).
 
 ```js
 function* fibonacci() { /* … */ }
@@ -32,19 +34,19 @@ const evenFibs = earlyFibs.values().filter((n) => n % 2 === 0)
 
 <Footnote>
 
-Asynchronous versions are in the pipeline too, at stage 2 right now (February 2024).
+Les versions pour itérateurs asynchrones arrivent aussi, elles sont au stade 2 là tout de suite (octobre 2024).
 
 </Footnote>
 
 ---
 
-# ES2025: More flexible regexes
+# ES2025 : des regex plus flexibles
 
-Named capture groups are a major readability / maintainability boost for regexes, but an oversight in their initial spec prevented using the same group in multiple parts of an alternative.
+Les **groupes de capture nommés** ont fait beaucoup pour la lisibilité / maintenabilité des regex, mais leur spec initiale a loupé une marche, empêchant la **réutilisation d'un nom de groupe** de part et d'autre d'une alternative.
 
-It should have been ready for ES2023 but lacked some tests and a second native implementation.  Tests are done now and we're waiting for either v8 or Spidermonkey to jump the gun: this will very likely be part of ES2024.
+Ça aurait dû débarquer dans ES2023, mais il manquait des tests et une 2e implémentation native. Les tests sont arrivés à temps pour le gel 2024, mais l'implémentation a loupé le coche de quelques mois. Mais ayé !
 
-Regexp modifiers, which let you locally change regexp flags within your expression, also just (Oct 8, 2024) made it to stage 4!
+Tu as aussi les **modificateurs de regex**, qui permettent de changer les drapeaux sur une portion de l'expression.  Stade 4 tout frais (8 octobre 2024) !
 
 ```js
 const year = dateText.match(/(?<year>[0-9]{4})-[0-9]{2}|[0-9]{2}-(?<year>[0-9]{4})/)?.groups.year
@@ -57,38 +59,38 @@ mixedAlpha.test('aB') // => false
 
 ---
 
-# ES2025: Import attributes and JSON modules
+# ES2025 : Attributs d'import et modules JSON
 
-Provides free-form metadata on imports, with an inline syntax.
+Permet la fourniture de métadonnées libres sur les imports, au travers d'une syntaxe à la volée.
 
-The dominating use case, long discussed, is extra module types with matching type expectations for security reasons (a bit like HTTP's `X-Content-Type-Options: nosniff` response header).  We then use the `type` metadata, leveraged by engines.
+Le cas ultra-dominant, discuté de longue date, concerne les types complémentaires de modules et leur validation pour raisons de sécurité (un peu comme l'en-tête de réponse HTTP `X-Content-Type-Options: nosniff`).  On utilise alors la métadonnée `type`, gérée par les moteurs.
 
 ```js
-// Static imports
+// Imports statiques
 import config from '../config/config.json' with { type: 'json' }
 
-// Dynamic imports
+// Imports dynamiques
 const { default: config } = await import('../config/config.json', { with: { type: 'json' } })
 ```
 
-The spec suggests matching upgrades for Web Worker instantiation and HTML's `script` tag.
+La spec encourage l'implémentation de mises à jour équivalentes pour l'instantiation de Web Workers et la balise HTML `<script>`.
 
 <Footnote>
 
-This proposal supersedes the same-stage *JSON Modules* proposal, that used a more specific `assert` syntax.
+Cette proposition remplace l'historique *JSON Modules*, qui utilisait un syntaxe `assert` plus spécifique.
 
 </Footnote>
 
 ---
 
-# ES2025: `Promise.try()`
+# ES2025 : `Promise.try()`
 
-A faster alternative to the usual `Promise.resolve().then(f)` or `new Promise((resolve) => resolve(f()))` shenanigans for allowing promise-based consumer semantics over a function that may be sync or async.
+C'est une alternative plus rapide aux bidouilles classiques `Promise.resolve().then(f)` ou `new Promise((resolve) => resolve(f()))`, afin d'appliquer la sémantique de consommation de promesse à une fonction qu'elle soit synchrone ou asynchrone.
 
-Ensures same-tick execution when synchronous whilst being a lot more ergonomic!
+Garantit une exécution **« dans le même tick »** des fonctions synchrones, tout en étant plus ergonomique !
 
 ```js
-// `init` is a value-returning function that may be sync or promise-based async
+// `init` est une fonction renvoyant une valeur, et peut être synchrone ou asynchrone basée promesse.
 async function runProcess({ init... }) {
   const initial = await Promise.try(init)
   // ...
@@ -97,35 +99,35 @@ async function runProcess({ init... }) {
 
 ---
 
-# E2025? `Array.fromAsync(…)` <span class="stage">stage 3</span>
+# E2025 ? `Array.fromAsync(…)` <span class="stage">stade 3</span>
 <!-- May 23 -->
 
-We've had `Array.from(…)` since ES2015, that consumes any **synchronous iterable** to turn it into an actual array.
+Tu as `Array.from(…)` depuis ES2015, qui consomme n'importe quel **itérable synchrone** pour en faire un véritable tableau.
 
-We'll likely get `Array.fromAsync(…)`, that does the same thing with **async iterables**.
+Tu auras prochainement `Array.fromAsync(…)`, qui fait pareil pour les **itérables asynchrones**.
 
 ```js
-// Reads all STDIN (readable stream) lines into an array
+// Lit toutes les lignes de STDIN (flux en lecture) pour en faire un tableau
 process.stdin.setEncoding('utf-8')
 const inputLines = await Array.fromAsync(process.stdin)
 ```
 
 ```js
-// Let's remove trailing whitespace / LF / CR, while we're at it
+// Virons l'espacement de fin de ligne tant qu'on y est
 process.stdin.setEncoding('utf-8')
 const inputLines = await Array.fromAsync(process.stdin, (line) => line.trimEnd())
 ```
 
 ---
 
-# ES2025? Guaranteed resource cleanup <span class="stage">stage 3</span>
+# ES2025 ? Ressources garanties libérées <span class="stage">stade 3</span>
 <!-- March 23 -->
 
-Finally a mechanism to guarantee resource disposal!
+Enfin un mécanisme pour garantir la libération des ressources !
 
-Quite like C#'s `using`, Python's `with` or Java's try-with-resources: disposes of the resource in a guaranteed way when the scope or closure is discarded.
+Similaire au `using` de C#, au `with` de Python ou au *try-with-resources* de Java : nettoie les ressources de façon garantie quand la portée / fermeture lexicale disparaît.
 
-Exists in synchronous and asynchronous variants.  Based on two new well-known symbols (`Symbol.dispose` et `Symbol.asyncDispose`), supported out-of-the-box by timers and streams.
+Existe en modes synchrone et asynchrone.  Basé sur deux nouveaux symboles prédéfinis (`Symbol.dispose` et `Symbol.asyncDispose`), pris en charge d'entrée de jeu par les timers et les flux.
 
 ```js
 async function copy4K(s1, s2) {
@@ -135,39 +137,39 @@ async function copy4K(s1, s2) {
   const buffer = Buffer.alloc(4096)
   const { bytesRead } = await f1.read(buffer)
   await f2.write(buffer, 0, bytesRead)
-} // 'f2' is disposed first, then 'f1' is disposed second
+} // 'f2' est libéré d'abord, 'f1' est libéré ensuite
 ```
 
 <Footnote>
 
-Proposal's name: *Explicit Resource Management*. TypeScript 5.2+ and Babel 7.22+ support it. Early implementations in Node.js (e.g. Timers).
+La proposition s'appelle *Explicit Resource Management*. TypeScript 5.2+ et Babel 7.22+ la gèrent. Node.js l'implémente déjà en partie (timers et flux Node).
 
 </Footnote>
 
 ---
 
-# ES2025? Temporal 🥳 <span class="stage">stage 3</span>
+# ES2025 ? Temporal 🥳 <span class="stage">stade 3</span>
 <!-- Jul 24 -->
 
-Advantageously replaces Moment, Luxon, date-fns, etc. We already have `Intl` for formatting, but we're upping our game here. Immutable-style API, nanosecond precision, all TZ supported, distinguishes absolute and local time, duration vs. interval, etc.  **Awesome!** Check out the [docs](https://tc39.es/proposal-temporal/docs/), [cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html)…
+Tellement hâte de dire au revoir à Moment, Luxon, date-fns, dayjs, etc. `Intl` nous fournit déjà le formatage avancé, mais ici on a tous les calculs. API dérivative, précision à la nanoseconde, toutes les TZ, distingo temps absolu / local, durée vs. intervalle, etc.  **Fabuleux !** Va voir les [docs](https://tc39.es/proposal-temporal/docs/), le [cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html)…
 
-```js
-const meeting1 = Temporal.Date.from('2020-01-01')
-const meeting2 = Temporal.Date.from('2020-04-01')
+```js {1-2|1-3|1-4|all}
+const meeting1 = Temporal.Date.from('2024-01-01')
+const meeting2 = Temporal.Date.from('2024-04-01')
 const time = Temporal.Time.from('10:00:00')
 const timeZone = new Temporal.TimeZone('America/Montreal')
-timeZone.getAbsoluteFor(meeting1.withTime(time)) // => 2020-01-01T15:00:00.000Z
-timeZone.getAbsoluteFor(meeting2.withTime(time)) // => 2020-01-01T14:00:00.000Z
+timeZone.getAbsoluteFor(meeting1.withTime(time)) // => 2024-01-01T15:00:00.000Z
+timeZone.getAbsoluteFor(meeting2.withTime(time)) // => 2024-01-01T14:00:00.000Z
 ```
 
 <v-click>
 
-```js
+```js {1-2|1-3|5|1,5-7}
 const departure = Temporal.ZonedDateTime.from('2020-03-08T11:55:00+08:00[Asia/Hong_Kong]');
 const arrival = Temporal.ZonedDateTime.from('2020-03-08T09:50:00-07:00[America/Los_Angeles]');
 departure.until(arrival).toString() // => 'PT12H55M'
 
-const flightTime = Temporal.Duration.from({ hours: 14, minutes: 10 }); // { minutes: 850 } works too
+const flightTime = Temporal.Duration.from({ hours: 14, minutes: 10 }); // ou { minutes: 850 }
 const parisArrival = departure.add(flightTime).withTimeZone('Europe/Paris');
 parisArrival.toString() // => '2020-03-08T19:05:00+01:00[Europe/Paris]')
 ```
@@ -176,10 +178,10 @@ parisArrival.toString() // => '2020-03-08T19:05:00+01:00[Europe/Paris]')
 
 ---
 
-# ES2025? `RegExp.escape()` <span class="stage">stage 3</span>
+# ES2025 ? `RegExp.escape()` <span class="stage">stade 3</span>
 <!-- Jul 24 -->
 
-We **finally** get native regular expression escaping:
+Tu vas **enfin** pouvoir échapper nativement les regex :
 
 ```js
 RegExp.escape("😊 *_* +_+ ... 👍");
@@ -188,12 +190,12 @@ RegExp.escape("😊 *_* +_+ ... 👍");
 
 ---
 
-# ES2025? Decorators <span class="stage">stage 3</span>
+# ES2026 ? Décorateurs <span class="stage">stade 3</span>
 <!-- March 23 / May 23 -->
 
 <!-- Certes, ça ne concerne que les gens qui font beaucoup de POO, et si la tendance  est à la baisse en JS, de nombreux frameworks importants l'utilisent énormément (mais du coup, ils ont tendance à le faire en TypeScript). -->
 
-This takes **forever**…  Went through a few false-starts, then we had to wrap the test suite, and now we're waiting for native implementations.  The spec is done, anyway, and TypeScript aligns with it.  This is a great way of doing AOP *(as are ES proxies, by the way)*.  The language provides the plumbing, and the community provides the actual decorators.
+Ça prend **la vie**…  Plusieurs faux-départs, puis il a fallu boucler les tests, on attend maintenant les implémentations natives. La spec est finie, TypeScript est aligné.  Super moyen de faire de l'AOP *(mais les ES proxies c'est top aussi)*.  Le langage fournit la plomberie, et la communauté fournit les décorateurs eux-mêmes.
 
 ```js
 class SuperWidget extends Component {
@@ -215,12 +217,12 @@ class SuperWidget extends Component {
 
 ---
 
-# ES2025? Shadow Realms <span class="stage">stage "2.7"</span>
+# ES2026 ? Shadow Realms <span class="stage">stade 2.7</span>
 <!-- Feb 24 -->
 
-This provides the building blocks for having full control of **sandboxed JS evaluation** (among other things, you can customize available globals and standard library elements).
+Fournit les briques d'un contrôle total de **l'évaluation sandboxée de JS** (on peut par exemple personnaliser les globales et éléments de bibliothèque standard disponibles).
 
-This is a **godsend** for web-based IDEs, DOM virtualisation, test frameworks, server-side rendering, secure end-user scripts, and more!
+C'est du **pain bénit** pour les EDI en ligne, la virtualisation du DOM, les frameworks de test, le rendu côté serveur, la sécurisation de scripts utilisateurs, et plus encore !
 
 ```js
 const realm = new ShadowRealm()
@@ -228,20 +230,20 @@ const realm = new ShadowRealm()
 const process = await realm.importValue('./utils/processor.js', 'process')
 const processedData = process(data)
 
-// True isolation!
-globalThis.userLocation = 'Freiburg'
+// Véritable isolation !
+globalThis.userLocation = 'Nantes'
 realm.evaluate('globalThis.userLocation = "Paris"')
-globalThis.userLocation // => 'Freiburg'
+globalThis.userLocation // => 'Nantes'
 ```
 
-Check out [this explainer](https://github.com/tc39/proposal-shadowrealm/blob/main/explainer.md) for full details.
+Jette un coup d'œil à [cette explication](https://github.com/tc39/proposal-shadowrealm/blob/main/explainer.md) pour avoir tous les détails.
 
 ---
 
-# `Iterator.range` 🤩 <span class="stage">stage 2</span>
+# ES2026 ? `Iterator.range` 🤩 <span class="stage">stade 2</span>
 <!-- Apr 24 -->
 
-Finally an arithmetic sequence generator!  Coupled with iterator helpers, it's just too good…
+Enfin un générateur de séquence arithmétique ! Couplé avec les utilitaires sur itérateurs, ça fait du bien…
 
 ```js
 Iterator.range(0, 5).toArray()
@@ -256,56 +258,56 @@ Iterator.range(1, 7, { step: 3, inclusive: true })
 // => ['*', '****', '*******']
 ```
 
-Go have fun in the [playground!](https://tc39.es/proposal-iterator.range/playground.html)
+Va t'amuser dans le [bac à sable !](https://tc39.es/proposal-iterator.range/playground.html)
 
 ---
 
-# Records &amp; Tuples: Immutability FTW 💖 <span class="stage">stage 2</span>
+# ES2026 ? Records &amp; Tuples 💖 <span class="stage">stade 2</span>
 <!-- Apr 24 -->
 
-Deep, native immutable objects (records) and arrays (tuples).  We get all the benefits of immutability (e.g. referential equality), and it helps promote functional programming in JS.
+**L'immutabilité FTW !** Objets profonds (*records*) et tableaux (*tuples*) nativement immuables. Tous les avantages de l'immutabilité (ex. égalité référentielle), et ça promeut la programmation fonctionnelle en JS.
 
-All the usual operators and APIs work (`in`, `Object.keys()`, `Object.is()`, `===`, etc.), and this plays nicely with the standard library.  You can easily convert from mutable versions using factories.  Cherry-on-top: `JSON.parseImmutable()`!
+Tous les opérateurs et API habituels marchent (`in`, `Object.keys()`, `Object.is()`, `===`, etc.), et ça interagit bien avec la bibliothèque standard.  Tu peux aisément dériver les versions mutables grâce à des *factories*.  Cerise sur le gâteau : `JSON.parseImmutable()` !
 
 ```js
 // Records
 const grace1 = #{ given: 'Grace', family: 'Hopper' }
 const grace2 = #{ given: 'Grace', family: 'Kelly' }
 const grace3 = #{ ...grace2, family: 'Hopper' }
-grace1 === grace3 // => true!
-Object.keys(grace1) // => ['family', 'given'] -- sorted!
+grace1 === grace3 // => true !
+Object.keys(grace1) // => ['family', 'given'] -- trié !
 
 // Tuples
-#[1, 2, 3] === #[1, 2, 3] // => true!
+#[1, 2, 3] === #[1, 2, 3] // => true !
 ```
 
 <Footnote>
 
-Have fun with the [tutorial](https://tc39.es/proposal-record-tuple/tutorial/), sweet [playground](https://rickbutton.github.io/record-tuple-playground/#eyJjb250ZW50IjoiLy8gU2FsdXQgbCdhdWRpdG9pcmUgZGUgUml2aWVyYURFViAhXG5cbi8vIFJlY29yZHNcbmNvbnN0IGdyYWNlMSA9ICN7IGdpdmVuOiAnR3JhY2UnLCBmYW1pbHk6ICdIb3BwZXInIH1cbmNvbnN0IGdyYWNlMiA9ICN7IGdpdmVuOiAnR3JhY2UnLCBmYW1pbHk6ICdLZWxseScgfVxuY29uc3QgZ3JhY2UzID0gI3sgLi4uZ3JhY2UyLCBmYW1pbHk6ICdIb3BwZXInIH1cblxuZ3JhY2UxID09PSBncmFjZTMgLy8gPT4gdHJ1ZSFcbk9iamVjdC5rZXlzKGdyYWNlMSkgLy8gPT4gWydmYW1pbHknLCAnZ2l2ZW4nXSAtLSBzb3J0ZWQhXG5cbi8vIFR1cGxlc1xuI1sxLCAyLCAzXSA9PT0gI1sxLCAyLCAzXSAvLyA9PiB0cnVlISIsInN5bnRheCI6Imhhc2giLCJkb21Nb2RlIjpmYWxzZX0=) and amazing [cookbook](https://tc39.es/proposal-record-tuple/cookbook/)!
+Va t'amuser sur le [tutoriel](https://tc39.es/proposal-record-tuple/tutorial/), le délicieux [bac à sable](https://rickbutton.github.io/record-tuple-playground/#eyJjb250ZW50IjoiLy8gU2FsdXQgbCdhdWRpdG9pcmUgZGUgUml2aWVyYURFViAhXG5cbi8vIFJlY29yZHNcbmNvbnN0IGdyYWNlMSA9ICN7IGdpdmVuOiAnR3JhY2UnLCBmYW1pbHk6ICdIb3BwZXInIH1cbmNvbnN0IGdyYWNlMiA9ICN7IGdpdmVuOiAnR3JhY2UnLCBmYW1pbHk6ICdLZWxseScgfVxuY29uc3QgZ3JhY2UzID0gI3sgLi4uZ3JhY2UyLCBmYW1pbHk6ICdIb3BwZXInIH1cblxuZ3JhY2UxID09PSBncmFjZTMgLy8gPT4gdHJ1ZSFcbk9iamVjdC5rZXlzKGdyYWNlMSkgLy8gPT4gWydmYW1pbHknLCAnZ2l2ZW4nXSAtLSBzb3J0ZWQhXG5cbi8vIFR1cGxlc1xuI1sxLCAyLCAzXSA9PT0gI1sxLCAyLCAzXSAvLyA9PiB0cnVlISIsInN5bnRheCI6Imhhc2giLCJkb21Nb2RlIjpmYWxzZX0=) et l'extraordinaire [livre de recettes](https://tc39.es/proposal-record-tuple/cookbook/) !
 
 </Footnote>
 
 ---
 
-# Native signals! 📣 <span class="stage">stage 1</span>
+# Signaux 📣 <span class="stage">stade 1</span>
 <!-- Apr 24 -->
 
-Interoperable, performant, DevTools-exposed signals for you.
+Des signaux natifs, interopérables, performants, inspectables dans les DevTools… ça t'intéresse ?
 
 ```js
-// "Atom"
+// « Atome »
 const counter = new Signal.State(0)
-// Computed values
+// Signaux dérivés / calculés
 const isEven = new Signal.Computed(() => (counter.get() & 1) === 0)
 const parity = new Signal.Computed(() => isEven.get() ? "even" : "odd")
 
-// A library or framework would define effects based on other Signal primitives,
-// likely defined in the Signal.subtle namespace, such as Watcher.
+// Une bibliothèque / un framework pourra définir des effets basés sur d'autres primitives
+// de `Signal`, probablement définies dans `Signal.subtle`, telles que `Watcher`.
 declare function effect(cb: () => void): (() => void)
 
 effect(() => element.textContent = parity.get())
 
-// Let's simulate external updates to counter...
+// Simulons des mises à jour extérieurs du compteur…
 setInterval(() => counter.set(counter.get() + 1), 1000)
 ```
 
