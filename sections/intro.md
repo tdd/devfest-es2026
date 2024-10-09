@@ -43,7 +43,7 @@ On a toujours besoin de profils tech ! Jetez donc un coup d'œil à notre [page
 
 ---
 
-# Cette présentation est interactiv
+# Cette présentation est interactive
 
 - <kbd>o</kbd> pour un survol
 - <kbd>d</kbd> pour basculer le mode sombre
