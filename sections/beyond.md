@@ -17,6 +17,7 @@ Latest meeting: Oct 8-10 2024 in Tokyo
 ---
 
 # E2025 : Utilitaires sur collections / itérateurs
+<!-- Oct 8 -->
 
 C'est pas demain la veille qu'on arrêtera de traiter des collections (et des itérables en général), alors autant enrichir notre boîte à outils…
 
@@ -41,6 +42,7 @@ Les versions pour itérateurs asynchrones arrivent aussi, elles sont au stade 2 
 ---
 
 # ES2025 : des regex plus flexibles
+<!-- Oct 8 -->
 
 Les **groupes de capture nommés** ont fait beaucoup pour la lisibilité / maintenabilité des regex, mais leur spec initiale a loupé une marche, empêchant la **réutilisation d'un nom de groupe** de part et d'autre d'une alternative.
 
@@ -60,6 +62,7 @@ mixedAlpha.test('aB') // => false
 ---
 
 # ES2025 : Attributs d'import et modules JSON
+<!-- Oct 8 -->
 
 Permet la fourniture de métadonnées libres sur les imports, au travers d'une syntaxe à la volée.
 
@@ -84,6 +87,7 @@ Cette proposition remplace l'historique *JSON Modules*, qui utilisait un syntaxe
 ---
 
 # ES2025 : `Promise.try()`
+<!-- Oct 9 -->
 
 C'est une alternative plus rapide aux bidouilles classiques `Promise.resolve().then(f)` ou `new Promise((resolve) => resolve(f()))`, afin d'appliquer la sémantique de consommation de promesse à une fonction qu'elle soit synchrone ou asynchrone.
 
@@ -149,7 +153,7 @@ La proposition s'appelle *Explicit Resource Management*. TypeScript 5.2+ et Babe
 ---
 
 # ES2025 ? Temporal 🥳 <span class="stage">stade 3</span>
-<!-- Jul 24 -->
+<!-- last discussed Oct 24 -->
 
 Tellement hâte de dire au revoir à Moment, Luxon, date-fns, dayjs, etc. `Intl` nous fournit déjà le formatage avancé, mais ici on a tous les calculs. API dérivative, précision à la nanoseconde, toutes les TZ, distingo temps absolu / local, durée vs. intervalle, etc.  **Fabuleux !** Va voir les [docs](https://tc39.es/proposal-temporal/docs/), le [cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html)…
 
