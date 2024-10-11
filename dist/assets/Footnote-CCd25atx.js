@@ -1,1 +1,0 @@
-import{o,b as t,f as s,h as r}from"./modules/vue-BX7JzBT9.js";import{u as a}from"./slidev/context-D7rkpYLj.js";const f={__name:"Footnote",setup(l){return a(),(e,n)=>(o(),t("footer",{class:"footnote",style:r(e.style)},[s(e.$slots,"default")],4))}};export{f as _};

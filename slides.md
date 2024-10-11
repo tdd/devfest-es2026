@@ -1,6 +1,6 @@
 ---
 theme: ./theme
-titleTemplate: "Alors, quoi de neuf dans ES206 ? Une présentation de Christophe Porteneuve à DevFest Nantes 2024"
+titleTemplate: "Alors, quoi de neuf dans ES2026 ? Une présentation de Christophe Porteneuve à DevFest Nantes 2024"
 background: /covers/mosi-knife--PVgDgKXgZA-unsplash.jpg
 download: false
 class: text-center
@@ -15,7 +15,7 @@ fonts:
   serif: PT Sans
 
 info: |
-  ## Alors, quoi de neuf dans ES206 ?
+  ## Alors, quoi de neuf dans ES2026 ?
 
   Une présentation de [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) à [DevFest 2024](https://devfest2024.gdgnantes.com/).
 drawings:
@@ -24,7 +24,7 @@ drawings:
 css: unocss
 ---
 
-# Alors, quoi de neuf dans ES206 ?
+# Alors, quoi de neuf dans ES2026 ?
 
 Une présentation de [Christophe Porteneuve](https://www.linkedin.com/in/christopheporteneuve/) à [DevFest Nantes 2024](https://devfest2024.gdgnantes.com/)
 
