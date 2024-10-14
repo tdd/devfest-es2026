@@ -158,23 +158,23 @@ La proposition s'appelle *Explicit Resource Management*. TypeScript 5.2+ et Babe
 Tellement hâte de dire au revoir à Moment, Luxon, date-fns, dayjs, etc. `Intl` nous fournit déjà le formatage avancé, mais ici on a tous les calculs. API dérivative, précision à la nanoseconde, toutes les TZ, distingo temps absolu / local, durée vs. intervalle, etc.  **Fabuleux !** Va voir les [docs](https://tc39.es/proposal-temporal/docs/), le [cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html)…
 
 ```js {1-2|1-3|1-4|all|none}
-const meeting1 = Temporal.Date.from('2024-01-01')
-const meeting2 = Temporal.Date.from('2024-04-01')
-const time = Temporal.Time.from('10:00:00')
-const timeZone = new Temporal.TimeZone('America/Montreal')
-timeZone.getAbsoluteFor(meeting1.withTime(time)) // => 2024-01-01T15:00:00.000Z
-timeZone.getAbsoluteFor(meeting2.withTime(time)) // => 2024-01-01T14:00:00.000Z
+const time = Temporal.PlainTime.from('10:00:00')
+const meeting1 = Temporal.PlainDateTime.from('2024-01-01').withPlainTime(time)
+const meeting2 = Temporal.PlainDateTime.from('2024-04-01').withPlainTime(time)
+const timeZone = 'Europe/Paris'
+meeting1.toZonedDateTime(timeZone).toInstant() // => 2024-01-01T09:00:00Z
+meeting2.toZonedDateTime(timeZone).toInstant() // => 2024-04-01T08:00:00Z
 ```
 
 <v-click at="-1">
 
 ```js {none|1-2|1-3|5|1,5-7}
-const departure = Temporal.ZonedDateTime.from('2020-03-08T11:55:00+08:00[Asia/Hong_Kong]');
-const arrival = Temporal.ZonedDateTime.from('2020-03-08T09:50:00-07:00[America/Los_Angeles]');
+const departure = Temporal.ZonedDateTime.from('2020-03-08T11:55:00+08:00[Asia/Hong_Kong]')
+const arrival = Temporal.ZonedDateTime.from('2020-03-08T09:50:00-07:00[America/Los_Angeles]')
 departure.until(arrival).toString() // => 'PT12H55M'
 
-const flightTime = Temporal.Duration.from({ hours: 14, minutes: 10 }); // ou { minutes: 850 }
-const parisArrival = departure.add(flightTime).withTimeZone('Europe/Paris');
+const flightTime = Temporal.Duration.from({ hours: 14, minutes: 10 }) // ou { minutes: 850 }
+const parisArrival = departure.add(flightTime).withTimeZone('Europe/Paris')
 parisArrival.toString() // => '2020-03-08T19:05:00+01:00[Europe/Paris]')
 ```
 
