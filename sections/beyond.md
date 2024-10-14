@@ -157,7 +157,7 @@ La proposition s'appelle *Explicit Resource Management*. TypeScript 5.2+ et Babe
 
 Tellement hâte de dire au revoir à Moment, Luxon, date-fns, dayjs, etc. `Intl` nous fournit déjà le formatage avancé, mais ici on a tous les calculs. API dérivative, précision à la nanoseconde, toutes les TZ, distingo temps absolu / local, durée vs. intervalle, etc.  **Fabuleux !** Va voir les [docs](https://tc39.es/proposal-temporal/docs/), le [cookbook](https://tc39.es/proposal-temporal/docs/cookbook.html)…
 
-```js {1-2|1-3|1-4|all|none}
+```js {1|1-3|2,4-5|3-4,6|none}
 const time = Temporal.PlainTime.from('10:00:00')
 const meeting1 = Temporal.PlainDateTime.from('2024-01-01').withPlainTime(time)
 const meeting2 = Temporal.PlainDateTime.from('2024-04-01').withPlainTime(time)
